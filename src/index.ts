@@ -137,7 +137,7 @@ export const createApp = () => {
 
             })
             socket.on('open', function open() {
-                console.log('wss:open open-------------')
+                console.log('wss:open -------------')
             })
             socket.on('headers', function open(res: any) {
                 console.log('wss:headers', res)
