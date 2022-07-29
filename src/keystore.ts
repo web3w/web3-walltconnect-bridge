@@ -1,10 +1,11 @@
 import Redis from 'ioredis';
 import {ISocketMessage, ISocketSub, INotification} from './types'
-import {redisCfg} from './config/index.json'
+import {redisCfg, expireSeconds} from './config/index.json'
 
 const redisClient: Redis = new Redis(redisCfg)
 
 const subs: ISocketSub[] = []
+
 
 export const setSub = (subscriber: ISocketSub) => subs.push(subscriber)
 export const getSub = (topic: string) => {
@@ -19,11 +20,12 @@ export const getSub = (topic: string) => {
 
 // ------------------ Pub ------------------------------
 // 增加 pub
-export const setPub = (socketMessage: ISocketMessage) =>
-    redisClient.lpush(
-        `socketMessage:${socketMessage.topic}`,
-        JSON.stringify(socketMessage),
-    )
+export const setPub = async (socketMessage: ISocketMessage) => {
+    const topicId = `socketMessage:${socketMessage.topic}`
+    await redisClient.lpush(topicId, JSON.stringify(socketMessage))
+    return redisClient.expire(topicId, expireSeconds)
+}
+
 
 // 消费 topic del
 export const getPub = async (topic: string): Promise<ISocketMessage[]> => {
@@ -35,9 +37,11 @@ export const getPub = async (topic: string): Promise<ISocketMessage[]> => {
 
 // ------------------ Notification ------------------------------
 // 增加 notification
-export const setNotification = (notification: INotification) => {
+export const setNotification = async (notification: INotification) => {
     const data = JSON.stringify(notification)
-    return redisClient.lpush(`notification:${notification.topic}`, data)
+    const topicId = `notification:${notification.topic}`
+    await redisClient.lpush(topicId, data)
+    return redisClient.expire(topicId, expireSeconds)
 }
 
 // 获取 notification

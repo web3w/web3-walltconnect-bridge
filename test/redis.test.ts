@@ -6,7 +6,9 @@ import {redisCfg} from "../src/config/index.json"
 
     // await client.set("foo131", "valu11e","EX",3);
 
-    const foo = await client.lrange(`sssss`, 0, -1)
+    const foo = await client.lpush(`sssss`, 0, -1)
+    await client.expire(`sssss`,10)
+    // const foo = await client.lrange(`sssss`, 0, -1)
     console.log(foo)
 
 })()
