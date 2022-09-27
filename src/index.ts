@@ -33,6 +33,23 @@ export const getIPAdress = () => {
     return "0.0.0.0"
 }
 
+export const mergerUserPDF =async (userName:string,userPhone:string)=>{
+    let arr = fs.readdirSync("./file");
+    const merger = new PDFMerger();
+    const files = arr.filter(val => val.includes(userPhone))
+    let path=""
+    if (files.length > 0) {
+        for (const fileName of files) {
+            await merger.add("./file/" + fileName)
+        }
+        const project = await db.getData("/projects");
+        const fileName = "./file/user/" + project.name + userName + '.pdf'
+        await merger.save(fileName);
+        path = fileName.substr(1)
+    }
+    return path
+}
+
 export const createApp = () => {
     const app = Fastify({
         logger: true
@@ -195,24 +212,11 @@ export const createApp = () => {
                 const {name, phone} = req.query
                 if (phone || typeof phone === 'string') {
                     const user = users[phone]
-                    let arr = fs.readdirSync("./file");
-                    const merger = new PDFMerger();
-                    const files = arr.filter(val => val.includes(phone))
-                    if (files.length > 0) {
-                        for (const fileName of files) {
-                            await merger.add("./file/" + fileName)
-                        }
-                        const project = await db.getData("/projects");
-                        const fileName = "./file/user/" + project.name + user.name + '.pdf'
-                        await merger.save(fileName);
-                        user.path = fileName.substr(1)
-                    }
 
-                    user.sign = userSign[phone]
-                    result = {success: true, data: user}
+                    // const path = await mergerUserPDF(user.name,user.phone)
+                    const sign = userSign[phone]
+                    result = {success: true, data: {...user,sign}}
                 }
-                // result = {success: true, data: patent}
-
             }
 
             res.status(200).send(result)

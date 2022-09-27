@@ -25,7 +25,7 @@
   "scripts": {
     "build": "babel ./src --extensions '.ts' --out-dir ./build",
     "test": "mocha --require ./babel-polyfill.js test/**/*.spec.ts",
-    "start": ""
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",

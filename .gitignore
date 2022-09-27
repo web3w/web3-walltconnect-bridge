@@ -50,3 +50,4 @@ config
 .idea
 /.idea/
 /lib/
+/file/
