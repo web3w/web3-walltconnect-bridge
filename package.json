@@ -1,36 +1,38 @@
 {
-  "name": "node-walletconnect-bridge",
-  "description": "WalletConnect Bridge Server",
+  "name": "CIC Server",
+  "description": "CIC WeChat Mini Program Server",
   "version": "1.0.1",
   "private": true,
   "keywords": [
-    "walletconnect",
-    "ethereum",
-    "web3",
+    "CIC",
     "crypto"
   ],
-  "author": "WalletConnect <walletconnect.org>",
-  "homepage": "https://walletconnect.org",
+  "author": "CIC <CIC.org>",
+  "homepage": "https://CIC.org",
   "license": "LGPL-3.0",
   "dependencies": {
     "@fastify/cors": "^7.0.0",
     "@fastify/helmet": "^8.1.0",
+    "@fastify/static": "^6.5.0",
+    "@types/html-pdf": "^3.0.0",
     "fastify": "^4.3.0",
-    "ioredis": "^5.2.2",
+    "handlebars": "^4.7.7",
+    "html-pdf": "^3.0.1",
     "node-fetch": "^3.2.9",
-    "ws": "^8.8.1"
+    "node-json-db": "^2.1.2",
+    "pdf-merger-js": "^4.1.1"
   },
   "scripts": {
     "build": "babel ./src --extensions '.ts' --out-dir ./build",
     "test": "mocha --require ./babel-polyfill.js test/**/*.spec.ts",
-    "start": "node ./build"
+    "start": ""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/walletconnect/node-walletconnect-bridge.git"
+    "url": "git+https://github.com/CIC/CIC.git"
   },
   "bugs": {
-    "url": "https://github.com/walletconnect/node-walletconnect-bridge/issues"
+    "url": "https://github.com/CIC/CIC/issues"
   },
   "devDependencies": {
     "@types/ws": "^8.5.3",

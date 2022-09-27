@@ -16,6 +16,7 @@
     "lib": ["es2018"],
     "strict": true,
     "skipLibCheck": true,
+    "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true
